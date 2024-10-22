@@ -1,0 +1,25 @@
+SELECT * FROM `product_table` WHERE STATUS ='discontinued'
+DELETE FROM `product_table` WHERE STATUS ='discontinued'
+
+SELECT * FROM `product_table` WHERE description_html LIKE '%?y'
+SELECT * FROM `product_table` WHERE estimated_lead_time LIKE '% "time_to_arrive": {%'
+UPDATE `product_table` SET estimated_lead_time = REPLACE(estimated_lead_time, ' "time_to_arrive": {', ' "time_to_ship": {') WHERE estimated_lead_time LIKE '% "time_to_arrive": {%';
+
+SELECT * FROM `product_table` WHERE estimated_lead_time LIKE '% "time_to_stock": {%'
+UPDATE `product_table` SET estimated_lead_time = REPLACE(estimated_lead_time, ' "time_to_stock": {', ' "time_to_ship": {') WHERE estimated_lead_time LIKE '% "time_to_stock": {%'
+
+SELECT * FROM `product_table` WHERE category LIKE '%Software%'
+SELECT * FROM `product_table` WHERE category LIKE '%Services%'
+
+INSERT IGNORE INTO asset_table_new
+(`vendor_id`, `hash_key`, `sku`, `name`, `source`, `sha256`, `type`, `media_type`, `length`, `file_name`, `download_path`, `is_main_image`, `status`)
+SELECT `vendor_id`, `hash_key`, `sku`, `name`, regexp_replace(source, '\\?\\$product.*', '') AS source, `sha256`, `type`, `media_type`, `length`, `file_name`, `download_path`, `is_main_image`, `status`
+FROM `asset_table_copy` WHERE is_main_image=1
+
+INSERT IGNORE INTO asset_table_new
+(`vendor_id`, `hash_key`, `sku`, `name`, `source`, `sha256`, `type`, `media_type`, `length`, `file_name`, `download_path`, `is_main_image`, `status`)
+SELECT `vendor_id`, `hash_key`, `sku`, `name`, regexp_replace(source, '\\?\\$product.*', '') AS source, `sha256`, `type`, `media_type`, `length`, `file_name`, `download_path`, `is_main_image`, `status`
+FROM `asset_table_copy` WHERE is_main_image=0
+
+UPDATE asset_table_new SET source = CONCAT(source, '?$product-main$') WHERE is_main_image=1
+

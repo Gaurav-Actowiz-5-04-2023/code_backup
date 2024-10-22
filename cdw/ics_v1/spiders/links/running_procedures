@@ -1,0 +1,6 @@
+First Running this query :-
+---> UPDATE `ics_master_db_v1_cdw`.`category_sitemap_final` SET STATUS='pending'
+First Run link_category_brand spider
+---> Check that links count nearly 16000 to 17000 in category_link_brand_sep table in database
+---> Then Run links_main spider
+---> Then Check site_map_link_table links counts then compare with site_map_link_table_backup

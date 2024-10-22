@@ -1,0 +1,10 @@
+start "ics_master_db_v1_cdw_September_1" scrapy crawl data_cdw -a start=1 -a end=11397
+start "ics_master_db_v1_cdw_September_2" scrapy crawl data_cdw -a start=11397 -a end=24146
+start "ics_master_db_v1_cdw_September_3" scrapy crawl data_cdw -a start=24146 -a end=35970
+start "ics_master_db_v1_cdw_September_4" scrapy crawl data_cdw -a start=35970 -a end=49682
+start "ics_master_db_v1_cdw_September_5" scrapy crawl data_cdw -a start=49682 -a end=60517
+start "ics_master_db_v1_cdw_September_6" scrapy crawl data_cdw -a start=60517 -a end=78265
+start "ics_master_db_v1_cdw_September_7" scrapy crawl data_cdw -a start=78265 -a end=91066
+start "ics_master_db_v1_cdw_September_8" scrapy crawl data_cdw -a start=91066 -a end=103560
+start "ics_master_db_v1_cdw_September_9" scrapy crawl data_cdw -a start=103560 -a end=116579
+start "ics_master_db_v1_cdw_September_10" scrapy crawl data_cdw -a start=116579 -a end=137295
