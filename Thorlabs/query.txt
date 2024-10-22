@@ -1,0 +1,79 @@
+SELECT COUNT(*),STATUS FROM `ics_master_db_v1_thorlabs_april`.`site_map_link_table` GROUP BY STATUS
+
+SELECT COUNT(*),STATUS FROM `ics_master_db_v1_thorlabs_april`.`asset_table` GROUP BY STATUS
+
+SELECT pdp_url FROM `product_table` WHERE hash_key NOT IN (SELECT hash_key FROM `pricing_table`)
+
+SELECT pdp_url FROM `product_table` WHERE hash_key NOT IN (SELECT hash_key FROM `asset_table`)
+
+SELECT COUNT(sku),sku FROM `pricing_table` GROUP BY sku HAVING COUNT(sku) > 1
+
+SELECT * FROM `pricing_table` WHERE sku='FT300UMT' UNION ALL
+SELECT * FROM `pricing_table` WHERE sku='PA3JEA' UNION ALL
+SELECT * FROM `pricing_table` WHERE sku='FT900KB'
+
+SELECT * FROM product_table WHERE description REGEXP '  '
+
+SELECT * FROM product_table WHERE attributes LIKE '%"value": ""%'
+
+SELECT * FROM product_table WHERE description_html REGEXP '"http'
+
+UPDATE product_table SET description_html = regexp_replace(description_html, '<iframe.*?\/iframe>', '') WHERE  description_html REGEXP '<iframe'
+
+SELECT * FROM product_table WHERE description IS NULL AND description_html IS NOT NULL
+
+SELECT * FROM product_table WHERE description_html IS NULL AND description IS NOT NULL
+
+SELECT * FROM product_table WHERE attributes IS NULL
+
+SELECT * FROM product_table WHERE attributes LIKE '%[]%' AND id=73458
+ 
+SELECT COUNT(*), vendor_name FROM product_table GROUP BY vendor_name
+
+SELECT COUNT(id) FROM product_table
+
+SELECT COUNT(DISTINCT(sha256)) FROM asset_table -- 157525
+
+SELECT * FROM pricing_table WHERE price=0.0
+
+UPDATE pricing_table SET price=NULL  WHERE price=0.0
+
+SELECT * FROM pricing_table WHERE price IS NULL AND price_string IS NULL
+
+SELECT * FROM pricing_table WHERE price IS NOT NULL AND price_string IS NOT NULL
+
+SELECT COUNT(id), media_type FROM asset_table GROUP BY media_type
+
+SELECT COUNT(id), TYPE FROM asset_table GROUP BY TYPE
+
+UPDATE asset_table SET TYPE='image/product' WHERE media_type='image/jpeg';
+UPDATE asset_table SET TYPE='image/product' WHERE media_type='image/gif';
+UPDATE asset_table SET TYPE='image/product' WHERE media_type='image/png';
+
+SELECT * FROM asset_table WHERE media_type='text/html' AND is_main_image=1
+
+SELECT * FROM product_table WHERE hash_key='b5c79402e3686a31efbccf80c7d4064ad7a08a4e4d548ff580e1ec2320ff30bc'
+
+-- Exception Cases :-
+UPDATE site_map_link_table SET STATUS='no_image' WHERE product_urls IN (
+DELETE FROM `product_table` WHERE hash_key NOT IN (SELECT hash_key FROM `asset_table` WHERE is_main_image=0)
+)
+
+UPDATE asset_table SET STATUS='button' WHERE source LIKE '%png%' AND file_name LIKE '%Button%'
+SELECT * FROM asset_table WHERE source LIKE '%png%' AND file_name LIKE '%Button%'
+
+UPDATE asset_table SET STATUS='png' WHERE source LIKE '%png%' AND is_main_image=0
+
+SELECT * FROM product_table WHERE description IS NULL
+
+UPDATE site_map_link_table SET STATUS='no_description' WHERE product_urls IN(
+SELECT pdp_url FROM product_table WHERE description IS NULL
+)
+
+SELECT * FROM product_table_copy WHERE description IS NULL
+DELETE FROM product_table WHERE description IS NULL
+
+SELECT pdp_url FROM product_table WHERE description IS NULL
+
+SELECT * FROM asset_table WHERE STATUS='pending'
+

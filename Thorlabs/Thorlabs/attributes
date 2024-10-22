@@ -1,0 +1,268 @@
+def Second_table(html_table, sku):
+    try:
+        df = pd.read_html(html_table.xpath('.').get(''))
+        # print(df)
+
+        # # Get the index of the column 'ZC618FC-C'
+        # col_index = df.columns.get_loc('ZC618FC-C')
+        #
+        # # Extract the column and its data
+        # df = df[[df.columns[0], df.columns[col_index]]]
+        # print(df)
+        df_keys = list()
+        try:
+            for keys in df[0].keys():
+                df_keys.append(keys)
+        except:
+            pass
+
+        sku_check = False
+        if sku not in df_keys:
+            for i in df_keys:
+                try:
+                    if sku in df[0][i][0]:
+                        key = i
+                        sku_check = True
+                except:
+                    pass
+
+
+        # print(df_keys)
+        # print(df[0][df_keys[0]], df[0][df_keys[1]])
+        try:
+
+            for i in df_keys:
+                if "".join(re.findall('[A-Za-z0-9]{1,}', sku)) == "".join(re.findall('[A-Za-z0-9]{1,}', i)):
+                    key = i
+                    sku_check = True
+
+            # for i in df_keys:
+            #     if sku == i :
+            #         sku_check = True
+            #         key = i
+            # else:
+            #     for i in df_keys:
+            #         if sku in i:
+            #             sku_check = True
+            #             key = i
+            # if sku in df_keys:
+            attributes = list()
+            if sku_check:
+                group = ""
+                try:
+                    for i, j in zip(df[0][df_keys[0]], df[0][key]):
+                        if i == j:
+                            group = i
+                        else:
+                            if group == '':
+                                group = df_keys[0]
+                            # if sku in j:
+                            #     group = i
+                            try:
+                                if 'Item #' in j:
+                                    break
+
+                                if sku not in j:
+                                        if i != 'Qty' and i != 'Description':
+                                            attributes.append({"name": f"{i}", "value": f"{j}", "group": f"{group}"})
+                            except Exception as e:
+                                pass
+
+                except Exception as e:
+                    print(e)
+
+            if attributes == []:
+                if sku not in df_keys :
+                    df_keys = df[0].keys()
+
+                    indexs = int()
+                    attributes = list()
+                    con = False
+                    if sku not in df_keys:
+                        for index, i in enumerate(df[0][df_keys[0]]):
+                            if sku == i:
+                                indexs = index
+                                con = True
+
+                    if con:
+                        group_name = ""
+                        for count, i in enumerate(df_keys):
+                            if not count:
+                                group_name = i
+                            else:
+
+                                try:
+                                    if sku not in df[0][i][indexs]:
+                                        if i != 'Qty' and i != 'Description':
+                                            attributes.append({'name': i, 'value': df[0][i][indexs], 'group': group_name})
+                                except:
+                                    pass
+
+
+
+            # elif len(df_keys) == 2:
+            #     group = ""
+            #     attributes = list()
+            #     if sku in df_keys:
+            #         for i, j in zip(df[0][df_keys[0]], df[0][df_keys[1]]):
+            #             if i == j:
+            #                 group = i
+            #             else:
+            #                 if group == '':
+            #                     group = df_keys[0]
+            #                 attributes.append({"name": f"{i}", "group": f"{group}", "value": f"{j}"})
+            #
+            # else:
+            #     attributes = list()
+            #     group = df_keys[0]
+            #     if sku in df_keys:
+            #         for i, j in zip(df[0][df_keys[0]], df[0][df_keys[1]]):
+            #             attributes.append({"name": f"{i.strip() if isinstance(i, str) else i}",
+            #                                "group": f"{group.strip() if isinstance(group, str) else group}",
+            #                                "value": f"{j.strip() if isinstance(j, str) else j}"})
+            print(attributes)
+            con1 = False
+            remove_list = [".2", ".1", ".3"]
+            for i in attributes:
+                for j in remove_list:
+                    if j in i["name"]:
+                        con1 = True
+
+            if con1:
+                attributes = []
+                if con:
+                    group_name = ""
+                    con1 = True
+                    for count, i in enumerate(df_keys):
+                        if 'Unnamed' in group_name:
+                            group_name = df[0][group_name][0]
+                            con1 = False
+                        if not count:
+                            group_name = i
+                        else:
+                            if con1:
+                                try:
+                                    if sku not in df[0][i][indexs]:
+                                        if i != 'Qty' and i != 'Description':
+                                            attributes.append(
+                                                {'name': i, 'value': df[0][i][indexs], 'group': group_name})
+                                except:
+                                    pass
+                            else:
+                                try:
+                                    if sku not in df[0][i][indexs]:
+                                        if i != 'Qty' and i != 'Description':
+                                            attributes.append(
+                                                {'name': df[0][i][0], 'value': df[0][i][indexs], 'group': group_name})
+                                except:
+                                    pass
+                return attributes
+
+            else:
+                return attributes
+
+
+
+
+        except Exception as e:
+            pass
+    except:
+        pass
+
+
+
+def Second_table(html_table, sku):
+    try:
+
+        # print(df)
+
+        # Get the index of the column 'ZC618FC-C'
+    # try:
+        df = pd.read_html(html_table.xpath('.').get(''))
+        # print(df[0])
+
+        # col_index = df.columns.get_loc(sku)
+        #
+        # # Extract the column and its data
+        # df = df[[df.columns[0], df.columns[col_index]]]
+        # print(df)
+    # except:
+    #     pass
+        df_keys = list()
+        try:
+            for keys in df[0].keys():
+                df_keys.append(keys)
+        except:
+            pass
+
+        sku_check = False
+        if sku not in df_keys:
+            for i in df_keys:
+                try:
+                    if sku in df[0][i][0]:
+                        key = i
+                        sku_check = True
+                except:
+                    pass
+
+        try:
+
+            for i in df_keys:
+                if "".join(re.findall('[A-Za-z0-9]{1,}', sku)) == "".join(re.findall('[A-Za-z0-9]{1,}', i)):
+                    key = i
+                    sku_check = True
+
+            attributes = list()
+            if sku_check:
+                group = ""
+                try:
+                    for i, j in zip(df[0][df_keys[0]], df[0][key]):
+                        if i == j:
+                            group = i
+                        else:
+                            if group == '':
+                                group = df_keys[0]
+                            try:
+                                if 'Item #' in j:
+                                    break
+
+                                if sku not in j:
+                                        if i != 'Qty' and i != 'Description':
+                                            attributes.append({"name": f"{i}", "value": f"{j}", "group": f"{group}"})
+                            except Exception as e:
+                                pass
+
+                except Exception as e:
+                    print(e)
+
+            if attributes == []:
+                if sku not in df_keys :
+                    df_keys = df[0].keys()
+
+                    indexs = int()
+                    attributes = list()
+                    con = False
+                    if sku not in df_keys:
+                        for index, i in enumerate(df[0][df_keys[0]]):
+                            if sku == i:
+                                indexs = index
+                                con = True
+
+                    if con:
+                        group_name = ""
+                        for count, i in enumerate(df_keys):
+                            if not count:
+                                group_name = i
+                            else:
+                                try:
+                                    if sku not in df[0][i][indexs]:
+                                        if i != 'Qty' and i != 'Description':
+                                            attributes.append({'name': i, 'value': df[0][i][indexs], 'group': group_name})
+                                except:
+                                    pass
+            return attributes
+        except Exception as e:
+            pass
+    except:
+        pass
+
